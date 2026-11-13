@@ -13,7 +13,7 @@
     <a class="brand" href="#" aria-label="VidEarn home"><span class="brand-mark">▶</span> Vid<span>Earn</span></a>
     <label class="search"><span>⌕</span><input id="searchInput" type="search" placeholder="Search videos..." aria-label="Search videos"></label>
     <button class="upload-btn" id="uploadTop">＋ Upload</button>
-    <button class="avatar" aria-label="Your profile">U</button>
+    <button class="avatar" id="accountButton" aria-label="Sign in or open account">U</button>
   </header>
 
   <div class="layout">
@@ -68,12 +68,15 @@
 
       <section class="creator-banner" id="studio"><div><p class="eyebrow">YOUR VOICE MATTERS</p><h2>Ready to become a creator?</h2><p>Share your videos and start building your community on VidEarn.</p></div><button id="uploadBanner">Start creating <span>→</span></button></section>
 
-      <section class="referral-card" id="referrals"><div class="referral-icon">♧</div><div><p class="eyebrow">GROW TOGETHER</p><h2>Invite friends to VidEarn</h2><p>Referral links and rewards will be added as the platform grows.</p></div><span class="coming-soon">COMING SOON</span></section>
+      <section class="referral-card" id="referrals"><div class="referral-icon">♧</div><div><p class="eyebrow">GROW TOGETHER</p><h2>Invite friends to VidEarn</h2><p>Invite friends with your personal link. Referral tracking starts when Supabase is connected.</p><div class="referral-actions"><code id="referralLink">Sign in to get your link</code><button id="copyReferral" type="button" disabled>Copy link</button></div><p class="referral-status" id="referralStatus">Account setup is not connected yet.</p></div></section>
       <footer>© 2026 VidEarn <span>Built for creators, made for everyone.</span></footer>
     </main>
   </div>
 
   <dialog id="uploadDialog"><form method="dialog" class="dialog-box"><button class="close" aria-label="Close">×</button><p class="eyebrow">CREATOR STUDIO</p><h2>Upload your video</h2><p>Video uploading will be connected after we set up secure storage and user accounts.</p><label class="file-label">Choose a video<input type="file" accept="video/*" disabled></label><small>Uploads are not active in this first preview.</small><button class="done-btn">Got it</button></form></dialog>
+  <dialog id="accountDialog"><form id="accountForm" class="dialog-box"><button class="close" id="closeAccount" type="button" aria-label="Close">×</button><p class="eyebrow">VIDEARN ACCOUNT</p><h2 id="accountTitle">Welcome back</h2><p id="accountMessage">Sign in or create your creator account.</p><label class="auth-field">Email<input id="authEmail" type="email" autocomplete="email" required placeholder="you@example.com"></label><label class="auth-field">Password<input id="authPassword" type="password" autocomplete="current-password" minlength="6" required placeholder="At least 6 characters"></label><label class="auth-field" id="displayNameField" hidden>Your name<input id="displayName" type="text" maxlength="60" autocomplete="name" placeholder="Your display name"></label><button class="done-btn" id="authSubmit" type="submit">Sign in</button><button class="switch-auth" id="switchAuth" type="button">New here? Create an account</button><p class="auth-notice" id="authNotice" role="status"></p><button class="switch-auth" id="signOutButton" type="button" hidden>Sign out</button></form></dialog>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
