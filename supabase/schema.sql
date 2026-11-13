@@ -107,7 +107,7 @@ create trigger on_auth_user_created_videarn
 create or replace function public.guard_video_moderation_fields()
 returns trigger
 language plpgsql
-as $
+as $$
 begin
   if auth.role() <> 'service_role' then
     if tg_op = 'INSERT' and new.status not in ('draft', 'pending') then
@@ -125,7 +125,7 @@ begin
   end if;
   return new;
 end;
-$;
+$$;
 drop trigger if exists guard_video_moderation_fields on public.videos;
 create trigger guard_video_moderation_fields
   before insert or update on public.videos
