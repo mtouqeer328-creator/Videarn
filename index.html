@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090d18">
+  <meta name="description" content="VidEarn — watch, share and grow with videos.">
+  <title>VidEarn — Videos that move you</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="VidEarn home"><span class="brand-mark">▶</span> Vid<span>Earn</span></a>
+    <label class="search"><span>⌕</span><input id="searchInput" type="search" placeholder="Search videos..." aria-label="Search videos"></label>
+    <button class="upload-btn" id="uploadTop">＋ Upload</button>
+    <button class="avatar" aria-label="Your profile">U</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <a class="nav-item active" href="#home">⌂ <span>Home</span></a>
+      <a class="nav-item" href="#shorts">▣ <span>Short videos</span></a>
+      <a class="nav-item" href="#trending">↗ <span>Trending</span></a>
+      <a class="nav-item" href="#subscriptions">♡ <span>Following</span></a>
+      <div class="side-line"></div>
+      <p class="side-label">YOUR SPACE</p>
+      <a class="nav-item" href="#studio">▤ <span>Creator studio</span></a>
+      <a class="nav-item" href="#referrals">♧ <span>Invite & earn</span></a>
+      <a class="nav-item" href="#saved">▱ <span>Saved videos</span></a>
+      <div class="side-note"><b>Make it. Share it.</b><p>Your next favourite video is one tap away.</p></div>
+    </aside>
+
+    <main id="home">
+      <section class="welcome">
+        <div><p class="eyebrow">WELCOME TO YOUR VIDEO WORLD</p><h1>Videos that <span>move you.</span></h1><p class="welcome-copy">Discover creators, find your next favourite and share your own story.</p></div>
+        <div class="welcome-icon">▶</div>
+      </section>
+
+      <section class="chips" aria-label="Video categories">
+        <button class="chip selected" data-category="All">For you</button>
+        <button class="chip" data-category="Music">Music</button>
+        <button class="chip" data-category="Gaming">Gaming</button>
+        <button class="chip" data-category="Technology">Technology</button>
+        <button class="chip" data-category="Learning">Learning</button>
+        <button class="chip" data-category="Entertainment">Entertainment</button>
+      </section>
+
+      <section class="section-head" id="trending"><div><p class="eyebrow">HANDPICKED FOR YOU</p><h2>Explore videos</h2></div><span class="live-tag">● Fresh picks</span></section>
+      <section class="video-grid" id="videoGrid">
+        <article class="video-card" data-category="Technology" data-title="The future of technology">
+          <div class="thumb thumb-one"><span class="play">▶</span><span class="duration">08:24</span><span class="thumb-word">NEXT<br>GEN</span></div>
+          <div class="video-info"><div class="channel-pic purple">T</div><div><h3>The future of technology</h3><p>Tech Today · 12K views · 2 days ago</p></div><button class="more" aria-label="More options">⋯</button></div>
+        </article>
+        <article class="video-card" data-category="Music" data-title="Sounds for a better day">
+          <div class="thumb thumb-two"><span class="play">▶</span><span class="duration">04:16</span><span class="thumb-word">FEEL<br>THE BEAT</span></div>
+          <div class="video-info"><div class="channel-pic pink">M</div><div><h3>Sounds for a better day</h3><p>Music Room · 8.4K views · 5 hours ago</p></div><button class="more" aria-label="More options">⋯</button></div>
+        </article>
+        <article class="video-card" data-category="Gaming" data-title="Level up your game">
+          <div class="thumb thumb-three"><span class="play">▶</span><span class="duration">12:08</span><span class="thumb-word">GAME<br>ON!</span></div>
+          <div class="video-info"><div class="channel-pic green">G</div><div><h3>Level up your game</h3><p>Play Zone · 24K views · 1 day ago</p></div><button class="more" aria-label="More options">⋯</button></div>
+        </article>
+        <article class="video-card" data-category="Learning" data-title="Learn something new today">
+          <div class="thumb thumb-four"><span class="play">▶</span><span class="duration">06:51</span><span class="thumb-word">GROW<br>DAILY</span></div>
+          <div class="video-info"><div class="channel-pic orange">L</div><div><h3>Learn something new today</h3><p>Skill School · 5.1K views · 3 days ago</p></div><button class="more" aria-label="More options">⋯</button></div>
+        </article>
+      </section>
+      <p class="empty-state" id="emptyState" hidden>No videos match your search yet.</p>
+
+      <section class="creator-banner" id="studio"><div><p class="eyebrow">YOUR VOICE MATTERS</p><h2>Ready to become a creator?</h2><p>Share your videos and start building your community on VidEarn.</p></div><button id="uploadBanner">Start creating <span>→</span></button></section>
+
+      <section class="referral-card" id="referrals"><div class="referral-icon">♧</div><div><p class="eyebrow">GROW TOGETHER</p><h2>Invite friends to VidEarn</h2><p>Referral links and rewards will be added as the platform grows.</p></div><span class="coming-soon">COMING SOON</span></section>
+      <footer>© 2026 VidEarn <span>Built for creators, made for everyone.</span></footer>
+    </main>
+  </div>
+
+  <dialog id="uploadDialog"><form method="dialog" class="dialog-box"><button class="close" aria-label="Close">×</button><p class="eyebrow">CREATOR STUDIO</p><h2>Upload your video</h2><p>Video uploading will be connected after we set up secure storage and user accounts.</p><label class="file-label">Choose a video<input type="file" accept="video/*" disabled></label><small>Uploads are not active in this first preview.</small><button class="done-btn">Got it</button></form></dialog>
+  <script src="app.js"></script>
+</body>
+</html>
