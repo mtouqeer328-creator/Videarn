@@ -10,3 +10,5 @@
 
 /* Mobile account access: override the compact-header hide rule. */
 @media(max-width:700px){.topbar .avatar{display:grid !important;place-items:center;flex:0 0 36px;width:36px;height:36px;}}
+
+.password-wrap{display:flex;gap:7px;margin-top:7px}.password-wrap input{margin-top:0;min-width:0;flex:1}.password-toggle{border:1px solid #343d52;border-radius:9px;background:#202541;color:#c9c1ff;padding:0 12px;font-size:12px;cursor:pointer}.switch-auth[hidden],.auth-field[hidden]{display:none!important}
