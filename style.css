@@ -7,3 +7,6 @@
 
 /* Keep the account button visible on mobile so users can open sign in/sign up. */
 @media(max-width:700px){.avatar{display:block;flex:0 0 36px;}}
+
+/* Mobile account access: override the compact-header hide rule. */
+@media(max-width:700px){.topbar .avatar{display:grid !important;place-items:center;flex:0 0 36px;width:36px;height:36px;}}
