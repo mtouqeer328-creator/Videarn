@@ -126,10 +126,13 @@ accountForm.addEventListener('submit', async event => {
     const referralCode = localStorage.getItem('videarn_referral_code') || '';
     result = await supabaseClient.auth.signUp({
       email, password,
-      options: { data: {
-        display_name: document.getElementById('displayName').value.trim(),
-        referral_code: referralCode
-      }}
+      options: {
+        emailRedirectTo: location.origin + location.pathname,
+        data: {
+          display_name: document.getElementById('displayName').value.trim(),
+          referral_code: referralCode
+        }
+      }
     });
     if (!result.error && !result.data.session) {
       showAuthNotice('Account created. Check your email to confirm, then sign in.');
