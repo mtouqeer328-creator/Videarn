@@ -126,7 +126,6 @@ begin
   return new;
 end;
 $;
-
 drop trigger if exists guard_video_moderation_fields on public.videos;
 create trigger guard_video_moderation_fields
   before insert or update on public.videos
