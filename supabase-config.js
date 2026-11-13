@@ -1,7 +1,6 @@
-// VidEarn public browser configuration.
-// Paste your Supabase Project URL and anon/publishable key below.
-// NEVER put a service_role or secret key in this file.
+// Public Supabase browser configuration for VidEarn.
+// The publishable key is intended for browser use; never put a secret/service_role key here.
 window.VIDEARN_SUPABASE = {
-  url: 'YOUR_PROJECT_URL',
-  anonKey: 'YOUR_SUPABASE_ANON_OR_PUBLISHABLE_KEY'
+  url: 'https://cxsnqvlvkxixwwyyrumc.supabase.co',
+  anonKey: 'sb_publishable_M7oNhvh90hVrC5Fi9U1Mqg_m67X452X'
 };
