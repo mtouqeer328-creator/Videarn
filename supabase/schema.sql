@@ -103,6 +103,35 @@ create trigger on_auth_user_created_videarn
   after insert on auth.users
   for each row execute procedure public.handle_new_user();
 
+-- Prevent browser users from publishing directly or changing moderation state.
+create or replace function public.guard_video_moderation_fields()
+returns trigger
+language plpgsql
+as $
+begin
+  if auth.role() <> 'service_role' then
+    if tg_op = 'INSERT' and new.status not in ('draft', 'pending') then
+      raise exception 'Videos must be submitted as draft or pending';
+    end if;
+    if tg_op = 'UPDATE' then
+      if new.owner_id <> old.owner_id then
+        raise exception 'Video owner cannot be changed';
+      end if;
+      if new.status is distinct from old.status
+         and not (old.status = 'draft' and new.status = 'pending') then
+        raise exception 'Only trusted moderation can publish or reject videos';
+      end if;
+    end if;
+  end if;
+  return new;
+end;
+$;
+
+drop trigger if exists guard_video_moderation_fields on public.videos;
+create trigger guard_video_moderation_fields
+  before insert or update on public.videos
+  for each row execute procedure public.guard_video_moderation_fields();
+
 alter table public.profiles enable row level security;
 alter table public.videos enable row level security;
 alter table public.referrals enable row level security;
