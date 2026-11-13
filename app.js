@@ -36,6 +36,8 @@ const authNotice = document.getElementById('authNotice');
 const authSubmit = document.getElementById('authSubmit');
 const signOutButton = document.getElementById('signOutButton');
 const displayNameField = document.getElementById('displayNameField');
+const confirmPasswordField = document.getElementById('confirmPasswordField');
+const forgotPasswordButton = document.getElementById('forgotPassword');
 const referralLink = document.getElementById('referralLink');
 const copyReferral = document.getElementById('copyReferral');
 let authMode = 'signin';
@@ -56,15 +58,36 @@ function showAuthNotice(message, isError = false) {
 function setAuthMode(mode) {
   authMode = mode;
   const creating = mode === 'signup';
-  document.getElementById('accountTitle').textContent = creating ? 'Create your account' : 'Welcome back';
-  document.getElementById('accountMessage').textContent = creating ? 'Join VidEarn and get your own invite link.' : 'Sign in to manage your VidEarn account.';
+  const recovering = mode === 'recovery';
+  confirmPasswordField.hidden = !(creating || recovering);
+  document.getElementById('confirmPassword').required = creating || recovering;
+  forgotPasswordButton.hidden = creating || recovering;
+  document.getElementById('authPassword').autocomplete = recovering ? 'new-password' : (creating ? 'new-password' : 'current-password');
+  document.getElementById('accountTitle').textContent = recovering ? 'Choose a new password' : (creating ? 'Create your account' : 'Welcome back');
+  document.getElementById('accountMessage').textContent = recovering ? 'Enter and confirm your new password.' : (creating ? 'Join VidEarn and get your own invite link.' : 'Sign in to manage your VidEarn account.');
   displayNameField.hidden = !creating;
   document.getElementById('displayName').required = creating;
-  authSubmit.textContent = creating ? 'Create account' : 'Sign in';
+  authSubmit.textContent = recovering ? 'Update password' : (creating ? 'Create account' : 'Sign in');
+  document.getElementById('switchAuth').hidden = recovering;
   document.getElementById('switchAuth').textContent = creating ? 'Already registered? Sign in' : 'New here? Create an account';
   showAuthNotice('');
 }
 document.getElementById('switchAuth').addEventListener('click', () => setAuthMode(authMode === 'signin' ? 'signup' : 'signin'));
+document.querySelectorAll('[data-toggle-password]').forEach(button => button.addEventListener('click', () => {
+  const input = document.getElementById(button.dataset.togglePassword);
+  input.type = input.type === 'password' ? 'text' : 'password';
+  button.textContent = input.type === 'password' ? 'Show' : 'Hide';
+  button.setAttribute('aria-label', input.type === 'password' ? 'Show password' : 'Hide password');
+}));
+forgotPasswordButton.addEventListener('click', async () => {
+  if (!supabaseClient) return showAuthNotice('Supabase connection is not available.', true);
+  const email = document.getElementById('authEmail').value.trim();
+  if (!email) return showAuthNotice('Pehle apna email address likhein.', true);
+  forgotPasswordButton.disabled = true;
+  const { error } = await supabaseClient.auth.resetPasswordForEmail(email, { redirectTo: location.origin + location.pathname });
+  forgotPasswordButton.disabled = false;
+  showAuthNotice(error ? error.message : 'Agar is email ka account hai to password reset link email kar diya gaya hai. Inbox aur Spam check karein.', !!error);
+});
 document.getElementById('closeAccount').addEventListener('click', () => accountDialog.close());
 accountButton.addEventListener('click', () => {
   setAuthMode(currentUser ? 'signin' : 'signin');
@@ -86,7 +109,19 @@ accountForm.addEventListener('submit', async event => {
   showAuthNotice('Please wait...');
   const email = document.getElementById('authEmail').value.trim();
   const password = document.getElementById('authPassword').value;
+  const confirmPassword = document.getElementById('confirmPassword').value;
+  if ((authMode === 'signup' || authMode === 'recovery') && password !== confirmPassword) {
+    authSubmit.disabled = false;
+    return showAuthNotice('Dono passwords match nahi karte.', true);
+  }
   let result;
+  if (authMode === 'recovery') {
+    result = await supabaseClient.auth.updateUser({ password });
+    authSubmit.disabled = false;
+    if (result.error) showAuthNotice(result.error.message, true);
+    else { showAuthNotice('Password update ho gaya. Ab naye password se sign in karein.'); setAuthMode('signin'); }
+    return;
+  }
   if (authMode === 'signup') {
     const referralCode = localStorage.getItem('videarn_referral_code') || '';
     result = await supabaseClient.auth.signUp({
@@ -156,6 +191,9 @@ copyReferral.addEventListener('click', async () => {
     return;
   }
   supabaseClient = window.supabase.createClient(config.url, config.anonKey);
-  supabaseClient.auth.onAuthStateChange(() => { refreshAccount(); });
+  supabaseClient.auth.onAuthStateChange((event) => {
+    if (event === 'PASSWORD_RECOVERY') { setAuthMode('recovery'); accountDialog.showModal(); }
+    refreshAccount();
+  });
   refreshAccount();
 })();
