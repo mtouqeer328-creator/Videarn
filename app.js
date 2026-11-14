@@ -196,10 +196,10 @@ function renderVideos(rows) {
 async function loadVideos() {
   if (!supabaseClient) return;
   const { data, error } = await supabaseClient.from('videos')
-    .select('id,title,description,video_url,thumbnail_url,category,status,created_at,owner_id,profiles(display_name)')
+    .select('id,title,description,video_path,thumbnail_url,category,status,created_at,owner_id,profiles(display_name)')
     .order('created_at', { ascending: false }).limit(60);
   if (error) { emptyState.hidden = false; emptyState.textContent = 'Videos load nahi ho sakin: ' + error.message; return; }
-  renderVideos(data || []);
+  const playable = await Promise.all((data || []).map(async row => {\n    if (!row.video_path) return row;\n    const { data: signed } = await supabaseClient.storage.from('videos').createSignedUrl(row.video_path, 3600);\n    return { ...row, video_url: signed?.signedUrl || null };\n  }));\n  renderVideos(playable);
 }
 ['uploadTop','uploadBanner'].forEach(id => document.getElementById(id).addEventListener('click', () => {
   if (!currentUser) { setAuthMode('signin'); accountDialog.showModal(); showAuthNotice('Upload ke liye pehle sign in karein.'); return; }
