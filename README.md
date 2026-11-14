@@ -6,7 +6,7 @@ VidEarn is a video-sharing platform concept for short and long videos, with a fu
 - Responsive homepage for mobile and desktop
 - Sample video cards
 - Video search and category filters
-- Creator upload entry point (prototype only)
+- Supabase email/password authentication and creator profiles\n- Real video upload to Supabase Storage (500 MB cap)\n- Upload moderation queue; only approved public videos appear in the public feed\n- Referral code capture and personal invite links
 - Referral system section (activation planned)
 
 ## Run
