@@ -199,7 +199,12 @@ async function loadVideos() {
     .select('id,title,description,video_path,thumbnail_url,category,status,created_at,owner_id,profiles(display_name)')
     .order('created_at', { ascending: false }).limit(60);
   if (error) { emptyState.hidden = false; emptyState.textContent = 'Videos load nahi ho sakin: ' + error.message; return; }
-  const playable = await Promise.all((data || []).map(async row => {\n    if (!row.video_path) return row;\n    const { data: signed } = await supabaseClient.storage.from('videos').createSignedUrl(row.video_path, 3600);\n    return { ...row, video_url: signed?.signedUrl || null };\n  }));\n  renderVideos(playable);
+  const playable = await Promise.all((data || []).map(async row => {
+    if (!row.video_path) return row;
+    const { data: signed } = await supabaseClient.storage.from('videos').createSignedUrl(row.video_path, 3600);
+    return { ...row, video_url: signed?.signedUrl || null };
+  }));
+  renderVideos(playable);
 }
 ['uploadTop','uploadBanner'].forEach(id => document.getElementById(id).addEventListener('click', () => {
   if (!currentUser) { setAuthMode('signin'); accountDialog.showModal(); showAuthNotice('Upload ke liye pehle sign in karein.'); return; }
@@ -222,10 +227,9 @@ uploadForm.addEventListener('submit', async event => {
     uploadNotice.textContent = 'Storage error: ' + storageError.message + ' — SQL setup aur videos bucket check karein.';
     return;
   }
-  const { data: publicData } = supabaseClient.storage.from('videos').getPublicUrl(path);
   const { error: rowError } = await supabaseClient.from('videos').insert({
     owner_id: currentUser.id, title, description: document.getElementById('videoDescription').value.trim(),
-    category: document.getElementById('videoCategory').value, video_url: publicData.publicUrl,
+    category: document.getElementById('videoCategory').value, video_path: path,
     status: 'pending', visibility: 'private'
   });
   if (rowError) {
