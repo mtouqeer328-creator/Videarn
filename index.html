@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#090d18">
   <meta name="description" content="VidEarn — watch, share and grow with videos.">
   <title>VidEarn — Videos that move you</title>
-  <link rel="stylesheet" href="style.css?v=auth-tools-3">
+  <link rel="stylesheet" href="style.css?v=backend-1">
 </head>
 <body>
   <header class="topbar">
@@ -73,10 +73,10 @@
     </main>
   </div>
 
-  <dialog id="uploadDialog"><form method="dialog" class="dialog-box"><button class="close" aria-label="Close">×</button><p class="eyebrow">CREATOR STUDIO</p><h2>Upload your video</h2><p>Video uploading will be connected after we set up secure storage and user accounts.</p><label class="file-label">Choose a video<input type="file" accept="video/*" disabled></label><small>Uploads are not active in this first preview.</small><button class="done-btn">Got it</button></form></dialog>
+  <dialog id="uploadDialog"><form id="uploadForm" class="dialog-box"><button class="close" id="closeUpload" type="button" aria-label="Close">×</button><p class="eyebrow">CREATOR STUDIO</p><h2>Upload your video</h2><p>Videos are submitted for review before appearing publicly.</p><label class="auth-field">Video title<input id="videoTitle" type="text" maxlength="160" required placeholder="Give your video a title"></label><label class="auth-field">Description<input id="videoDescription" type="text" maxlength="2000" placeholder="What is this video about?"></label><label class="auth-field">Category<select id="videoCategory"><option>Entertainment</option><option>Music</option><option>Gaming</option><option>Technology</option><option>Learning</option></select></label><label class="file-label">Choose a video (up to 500 MB)<input id="videoFile" type="file" accept="video/*" required></label><small>Only videos you own or have permission to share. Maximum 500 MB.</small><button class="done-btn" id="uploadSubmit" type="submit">Submit for review</button><p class="auth-notice" id="uploadNotice" role="status"></p></form></dialog>
   <dialog id="accountDialog"><form id="accountForm" class="dialog-box"><button class="close" id="closeAccount" type="button" aria-label="Close">×</button><p class="eyebrow">VIDEARN ACCOUNT</p><h2 id="accountTitle">Welcome back</h2><p id="accountMessage">Sign in or create your creator account.</p><label class="auth-field">Email<input id="authEmail" type="email" autocomplete="email" required placeholder="you@example.com"></label><label class="auth-field">Password<div class="password-wrap"><input id="authPassword" type="password" autocomplete="current-password" minlength="6" required placeholder="At least 6 characters"><button class="password-toggle" type="button" data-toggle-password="authPassword" aria-label="Show password">Show</button></div></label><label class="auth-field" id="confirmPasswordField" hidden>Confirm password<div class="password-wrap"><input id="confirmPassword" type="password" autocomplete="new-password" minlength="6" placeholder="Re-enter password"><button class="password-toggle" type="button" data-toggle-password="confirmPassword" aria-label="Show confirm password">Show</button></div></label><label class="auth-field" id="displayNameField" hidden>Your name<input id="displayName" type="text" maxlength="60" autocomplete="name" placeholder="Your display name"></label><button class="done-btn" id="authSubmit" type="submit">Sign in</button><button class="switch-auth" id="forgotPassword" type="button">Forgot password?</button><button class="switch-auth" id="switchAuth" type="button">New here? Create an account</button><p class="auth-notice" id="authNotice" role="status"></p><button class="switch-auth" id="signOutButton" type="button" hidden>Sign out</button></form></dialog>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js"></script>
-  <script src="app.js?v=auth-tools-3"></script>
+  <script src="app.js?v=backend-1"></script>
 </body>
 </html>
